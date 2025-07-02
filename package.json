@@ -1,0 +1,54 @@
+{
+  "name": "atprotoat",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "pages:build": "DISABLE_ESLINT_PLUGIN=true npx @cloudflare/next-on-pages",
+    "pages:deploy": "npm run pages:build && wrangler pages deploy .vercel/output/static",
+    "pages:watch": "npx @cloudflare/next-on-pages --watch",
+    "pages:dev": "npx wrangler pages dev .vercel/output/static --compatibility-flag=nodejs_compat",
+    "build:local": "./build.sh",
+    "start": "next start",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "test": "jest"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+      "dependencies": {
+      "@atproto/api": "^0.15.6",
+      "@atproto/identity": "^0.4.8",
+      "@atproto/oauth-client": "^0.3.18",
+      "@atproto/oauth-client-browser": "^0.3.18",
+      "@atproto/repo": "^0.8.1",
+      "@atproto/syntax": "^0.4.0",
+      "@ipld/car": "^5.2.0",
+      "@ipld/dag-cbor": "^9.0.0",
+      "date-fns": "^4.1.0",
+      "jszip": "^3.10.1",
+    "next": "15.3.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@cloudflare/next-on-pages": "^1.8.5",
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.16",
+    "eslint": "^9",
+    "eslint-config-next": "15.3.2",
+    "ignore-loader": "^0.1.2",
+    "jest": "^29.7.0",
+    "postcss": "^8.4.32",
+    "tailwindcss": "^4",
+    "ts-jest": "^29.3.2",
+    "typescript": "^5"
+  }
+}

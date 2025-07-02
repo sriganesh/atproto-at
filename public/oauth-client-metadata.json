@@ -1,0 +1,18 @@
+{
+  "client_id": "https://atproto.at/oauth-client-metadata.json",
+  "client_name": "atproto.at - AT Protocol Explorer",
+  "client_uri": "https://atproto.at",
+  "logo_uri": "https://atproto.at/logo.png",
+  "tos_uri": "https://atproto.at/terms",
+  "policy_uri": "https://atproto.at/privacy",
+  "redirect_uris": [
+    "https://atproto.at/auth/callback",
+    "https://atproto.at/auth"
+  ],
+  "scope": "atproto transition:generic",
+  "grant_types": ["authorization_code", "refresh_token"],
+  "response_types": ["code"],
+  "token_endpoint_auth_method": "none",
+  "application_type": "web",
+  "dpop_bound_access_tokens": true
+}

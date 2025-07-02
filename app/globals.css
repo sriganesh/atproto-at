@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+html, body {
+  min-height: 100%;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Prevent white flashing during transitions */
+html {
+  background-color: var(--background);
+}
+
+/* Text selection styles for better dark mode support */
+::selection {
+  background-color: rgba(59, 130, 246, 0.5); /* Blue with 50% opacity */
+  color: inherit;
+}
+
+::-moz-selection {
+  background-color: rgba(59, 130, 246, 0.5);
+  color: inherit;
+}
+
+/* Dark mode specific selection */
+@media (prefers-color-scheme: dark) {
+  ::selection {
+    background-color: rgba(96, 165, 250, 0.3); /* Lighter blue with 30% opacity */
+    color: #ffffff;
+  }
+  
+  ::-moz-selection {
+    background-color: rgba(96, 165, 250, 0.3);
+    color: #ffffff;
+  }
+}
+
+/* Global cursor styles for interactive elements */
+a, 
+button,
+[role="button"],
+input[type="submit"],
+input[type="button"],
+input[type="reset"],
+.cursor-pointer,
+.hover\:cursor-pointer:hover {
+  cursor: pointer;
+}
+
+/* Ensure all links in example sections have pointer cursor */
+[class*="example"] a,
+[class*="profile"] span,
+[class*="record"] span {
+  cursor: pointer;
+}
+
+/* Welcome message animation */
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-10px); }
+  10% { opacity: 1; transform: translateY(0); }
+  90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+.animate-fade-in-out {
+  animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
