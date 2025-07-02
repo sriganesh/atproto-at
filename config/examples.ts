@@ -5,7 +5,7 @@
 
 export const EXAMPLE_PROFILES = [
   'sri.xyz',
-  'sriganesh.bsky.social',
+  'atproto.at',
   'blu.ski',
   'bsky.app',
   'atproto.com'
@@ -13,6 +13,7 @@ export const EXAMPLE_PROFILES = [
 
 export const EXAMPLE_RECORDS = [
   'did:plc:7gm5ejhut7kia2kzglqfew5b/app.bsky.feed.post/3lofbfdhml22h',
+  'did:plc:z72i7hdynmk6r22z27h6tvur/app.bsky.feed.post/3lb3qyu64bs2z',
   'did:plc:7gm5ejhut7kia2kzglqfew5b/app.bsky.feed.post/3lqgrasjofs2u'
 ];
 

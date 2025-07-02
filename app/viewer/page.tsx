@@ -44,6 +44,10 @@ export default function ViewerPage() {
           <span className="text-gray-400">•</span>
           <a href="/terms" className="text-gray-500 hover:text-blue-500 hover:underline">Terms</a>
           <span className="text-gray-400">•</span>
+
+          <a href="https://github.com/sriganesh/atproto-at" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-blue-500 hover:underline">Source Code</a>
+        </div>
+        <div className="flex items-center justify-center gap-4 flex-wrap">
           <a href="https://bsky.app/profile/atproto.at" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">@atproto.at</a>
           <span className="text-gray-400">•</span>
           <a href="https://bsky.app/profile/sri.xyz" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">@sri.xyz</a>

@@ -56,3 +56,5 @@ AT-API/*
 
 
 .next/
+
+sync-public.sh
