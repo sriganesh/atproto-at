@@ -30,6 +30,8 @@ A comprehensive web-based explorer for the AT Protocol ecosystem. View, explore,
 - Raw JSON editing support
 - URL-based navigation for easy access
 
+Full feature set explained in - [Project launch notes](https://sri.xyz/projects/atprotoat)
+
 ## Getting Started
 
 Simply prepend `atproto.` to any AT Protocol URI:
