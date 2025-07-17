@@ -61,8 +61,8 @@ export default function ProfileView({
     if (!plcLog || plcLog.length === 0) return null;
     
     // Find the account creation entry
-    // It's usually the last entry in the array (oldest chronologically)
-    const creationEntry = plcLog[plcLog.length - 1];
+    // It's the first entry in the array (oldest chronologically)
+    const creationEntry = plcLog[0];
     
     if (!creationEntry?.createdAt) return null;
     
@@ -690,4 +690,4 @@ export default function ProfileView({
       
     </>
   );
-} 
+}
