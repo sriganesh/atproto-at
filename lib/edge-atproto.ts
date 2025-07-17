@@ -622,6 +622,7 @@ export async function fetchPlcLog(did: string): Promise<any> {
       const handles = operation.alsoKnownAs?.map((aka: string) => aka.replace('at://', '')) || [];
       const rotationKeys = operation.rotationKeys || [];
       const verificationMethods = operation.verificationMethods || {};
+      const services = operation.services || {};
       
       return {
         createdAt,
@@ -629,6 +630,7 @@ export async function fetchPlcLog(did: string): Promise<any> {
         handles,
         rotationKeys,
         verificationMethods,
+        services,
         prev: operation.prev,
         cid: entry.cid
       };
