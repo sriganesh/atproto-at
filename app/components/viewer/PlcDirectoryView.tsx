@@ -52,6 +52,18 @@ export default function PlcDirectoryView({ plcLog, showDidDocument }: PlcDirecto
           text: `Initial PDS: ${entry.pdsEndpoint}`
         });
       }
+      // Show initial services (if any beyond the standard PDS)
+      if (entry.services) {
+        Object.keys(entry.services).forEach(serviceId => {
+          if (serviceId !== 'atproto_pds') {
+            const service = entry.services[serviceId];
+            changes.push({
+              type: 'service_add',
+              text: `Initial service: ${serviceId} (${service.type}) - ${service.endpoint}`
+            });
+          }
+        });
+      }
       if (entry.rotationKeys && entry.rotationKeys.length > 0) {
         // Remove the count summary line and just list keys
         entry.rotationKeys.forEach((key: string, keyIndex: number) => {
@@ -213,6 +225,55 @@ export default function PlcDirectoryView({ plcLog, showDidDocument }: PlcDirecto
       });
     }
     
+    // Check for service changes
+    if (entry.services && prevEntry.services) {
+      // Check for added services
+      Object.keys(entry.services).forEach(serviceId => {
+        if (!prevEntry.services[serviceId]) {
+          const service = entry.services[serviceId];
+          changes.push({
+            type: 'service_add',
+            text: `Service added: ${serviceId} (${service.type}) - ${service.endpoint}`
+          });
+        } else if (prevEntry.services[serviceId].endpoint !== entry.services[serviceId].endpoint) {
+          // Service endpoint changed
+          changes.push({
+            type: 'service_change',
+            text: `Service ${serviceId} endpoint changed: ${prevEntry.services[serviceId].endpoint} → ${entry.services[serviceId].endpoint}`
+          });
+        }
+      });
+      
+      // Check for removed services
+      Object.keys(prevEntry.services).forEach(serviceId => {
+        if (!entry.services[serviceId]) {
+          const service = prevEntry.services[serviceId];
+          changes.push({
+            type: 'service_remove',
+            text: `Service removed: ${serviceId} (${service.type})`
+          });
+        }
+      });
+    } else if (!prevEntry.services && entry.services) {
+      // All services are new (shouldn't happen after creation, but handle it)
+      Object.keys(entry.services).forEach(serviceId => {
+        const service = entry.services[serviceId];
+        changes.push({
+          type: 'service_add',
+          text: `Service added: ${serviceId} (${service.type}) - ${service.endpoint}`
+        });
+      });
+    } else if (prevEntry.services && !entry.services) {
+      // All services removed (unusual but possible)
+      Object.keys(prevEntry.services).forEach(serviceId => {
+        const service = prevEntry.services[serviceId];
+        changes.push({
+          type: 'service_remove',
+          text: `Service removed: ${serviceId} (${service.type})`
+        });
+      });
+    }
+    
     return changes;
   };
   
@@ -258,6 +319,15 @@ export default function PlcDirectoryView({ plcLog, showDidDocument }: PlcDirecto
         return (
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+          </svg>
+        );
+      case 'service_add':
+      case 'service_remove':
+      case 'service_change':
+        return (
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-indigo-500" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
+            <path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z" />
           </svg>
         );
       default:
