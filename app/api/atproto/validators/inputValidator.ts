@@ -12,7 +12,7 @@ const DEFAULT_LIMIT = 50;
 // Regex patterns for validation
 const DID_PATTERN = /^did:[a-z]+:[a-zA-Z0-9._%-]+$/;
 const HANDLE_PATTERN = /^([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
-const RKEY_PATTERN = /^[a-zA-Z0-9._~-]+$/;
+const RKEY_PATTERN = /^[a-zA-Z0-9._~:-]+$/;
 const AT_URI_PATTERN = /^(at:\/\/)?[^\/\s]+/;
 
 export interface ValidationResult<T> {
