@@ -29,6 +29,7 @@ import { JsonViewer } from '../ui/JsonViewer';
 import CopyButton from '../ui/CopyButton';
 import DocumentIcon from '../ui/DocumentIcon';
 import DidDocumentPopup from './DidDocumentPopup';
+import StatusSphereView from '../statusphere/StatusSphereView';
 
 // Import extracted components and utilities
 import RepositoryStatusWarnings from './RepositoryStatusWarnings';
@@ -233,7 +234,7 @@ function ViewerContentInner() {
           <PostView 
             data={data} 
             activeTab={activeTab} 
-            setActiveTab={(tab) => setActiveTab(tab)}
+            setActiveTab={setActiveTab}
             profileCache={cacheContext.profileCache}
             onProfileCached={cacheContext.handleProfileCached}
             getOrCreateProfileRequest={cacheContext.getOrCreateProfileRequest}
@@ -249,7 +250,7 @@ function ViewerContentInner() {
             data={data} 
             pinnedPostData={pinnedPostData} 
             activeTab={activeTab} 
-            setActiveTab={(tab) => setActiveTab(tab)} 
+            setActiveTab={setActiveTab} 
           />
         )}
         
@@ -258,7 +259,7 @@ function ViewerContentInner() {
           <RepostView 
             data={data} 
             activeTab={activeTab} 
-            setActiveTab={(tab) => setActiveTab(tab)}
+            setActiveTab={setActiveTab}
             profileCache={cacheContext.profileCache}
             onProfileCached={cacheContext.handleProfileCached}
             getOrCreateProfileRequest={cacheContext.getOrCreateProfileRequest}
@@ -273,7 +274,7 @@ function ViewerContentInner() {
           <BlockView 
             data={data} 
             activeTab={activeTab} 
-            setActiveTab={(tab) => setActiveTab(tab)} 
+            setActiveTab={setActiveTab} 
           />
         )}
         
@@ -282,7 +283,7 @@ function ViewerContentInner() {
           <FollowView 
             data={data} 
             activeTab={activeTab} 
-            setActiveTab={(tab) => setActiveTab(tab)} 
+            setActiveTab={setActiveTab} 
           />
         )}
         
@@ -291,7 +292,7 @@ function ViewerContentInner() {
           <LikeView 
             data={data} 
             activeTab={activeTab} 
-            setActiveTab={(tab) => setActiveTab(tab)}
+            setActiveTab={setActiveTab}
             profileCache={cacheContext.profileCache}
             onProfileCached={cacheContext.handleProfileCached}
             getOrCreateProfileRequest={cacheContext.getOrCreateProfileRequest}
@@ -315,7 +316,7 @@ function ViewerContentInner() {
           <ListItemView 
             data={data} 
             activeTab={activeTab} 
-            setActiveTab={(tab) => setActiveTab(tab)} 
+            setActiveTab={setActiveTab} 
           />
         )}
         
@@ -324,7 +325,7 @@ function ViewerContentInner() {
           <ThreadgateView 
             data={data} 
             activeTab={activeTab} 
-            setActiveTab={(tab) => setActiveTab(tab)}
+            setActiveTab={setActiveTab}
             profileCache={cacheContext.profileCache}
             onProfileCached={cacheContext.handleProfileCached}
             getOrCreateProfileRequest={cacheContext.getOrCreateProfileRequest}
@@ -339,7 +340,7 @@ function ViewerContentInner() {
           <PostgateView 
             data={data} 
             activeTab={activeTab} 
-            setActiveTab={(tab) => setActiveTab(tab)}
+            setActiveTab={setActiveTab}
             profileCache={cacheContext.profileCache}
             onProfileCached={cacheContext.handleProfileCached}
             getOrCreateProfileRequest={cacheContext.getOrCreateProfileRequest}
@@ -354,7 +355,7 @@ function ViewerContentInner() {
           <ListblockView 
             data={data} 
             activeTab={activeTab} 
-            setActiveTab={(tab) => setActiveTab(tab)}
+            setActiveTab={setActiveTab}
             profileCache={cacheContext.profileCache}
             onProfileCached={cacheContext.handleProfileCached}
             getOrCreateProfileRequest={cacheContext.getOrCreateProfileRequest}
@@ -366,7 +367,16 @@ function ViewerContentInner() {
           <LabelerView 
             data={data} 
             activeTab={activeTab} 
-            setActiveTab={(tab) => setActiveTab(tab)}
+            setActiveTab={setActiveTab}
+          />
+        )}
+        
+        {/* StatusSphere record display */}
+        {data.type === 'record' && recordTypeHelpers.hasStatusSphere(data) && (
+          <StatusSphereView 
+            data={data} 
+            activeTab={activeTab as 'info' | 'raw' | 'live'} 
+            setActiveTab={(tab) => setActiveTab(tab as 'info' | 'raw')}
           />
         )}
         
@@ -374,8 +384,8 @@ function ViewerContentInner() {
         {data.type === 'collection' && (
           <CollectionView 
             data={data}
-            activeTab={activeTab}
-            setActiveTab={setActiveTab}
+            activeTab={activeTab as 'info' | 'raw' | 'live'}
+            setActiveTab={(tab) => setActiveTab(tab as 'info' | 'raw')}
           />
         )}
         
@@ -401,7 +411,8 @@ function ViewerContentInner() {
          !recordTypeHelpers.hasBskyThreadgate(data) && 
          !recordTypeHelpers.hasBskyPostgate(data) && 
          !recordTypeHelpers.hasBskyListblock(data) && 
-         !recordTypeHelpers.hasBskyLabeler(data) && (
+         !recordTypeHelpers.hasBskyLabeler(data) && 
+         !recordTypeHelpers.hasStatusSphere(data) && (
           <RecordView 
             data={data} 
             activeTab={activeTab} 

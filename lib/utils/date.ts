@@ -25,3 +25,34 @@ export function formatDate(dateString?: string): string {
     return '';
   }
 }
+
+/**
+ * Get relative time string from a date (e.g., "2 hours ago", "1 month ago")
+ * Properly handles singular/plural forms
+ * @param date - Date object to compare against current time
+ * @returns Relative time string
+ */
+export function getRelativeTime(date: Date): string {
+  const now = new Date();
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+  
+  if (diffInSeconds < 60) return 'just now';
+  
+  const units = [
+    { name: 'year', seconds: 31536000 },
+    { name: 'month', seconds: 2592000 },
+    { name: 'week', seconds: 604800 },
+    { name: 'day', seconds: 86400 },
+    { name: 'hour', seconds: 3600 },
+    { name: 'minute', seconds: 60 }
+  ];
+  
+  for (const unit of units) {
+    const value = Math.floor(diffInSeconds / unit.seconds);
+    if (value >= 1) {
+      return `${value} ${unit.name}${value === 1 ? '' : 's'} ago`;
+    }
+  }
+  
+  return 'just now';
+}
