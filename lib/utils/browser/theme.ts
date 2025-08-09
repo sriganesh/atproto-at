@@ -11,6 +11,7 @@ export type RecordType =
   | 'list' 
   | 'profile'
   | 'listitem'
+  | 'statusphere'
   | 'unknown';
 
 export interface ThemeColors {
@@ -76,6 +77,12 @@ export const RECORD_THEMES: Record<RecordType, ThemeColors> = {
     bgColor: 'bg-orange-50 dark:bg-orange-900/20',
     borderColor: 'border-orange-200 dark:border-orange-800'
   },
+  statusphere: {
+    icon: '🎭',
+    textColor: 'text-slate-600 dark:text-slate-400',
+    bgColor: 'bg-gradient-to-r from-slate-50 to-blue-gray-50 dark:from-slate-900/20 dark:to-blue-gray-900/20',
+    borderColor: 'border-slate-300 dark:border-slate-700'
+  },
   unknown: {
     icon: '📄',
     textColor: 'text-gray-600 dark:text-gray-400',
@@ -104,6 +111,8 @@ export function getRecordTheme(recordType: string): ThemeColors {
     return RECORD_THEMES.listitem;
   } else if (recordType.includes('profile')) {
     return RECORD_THEMES.profile;
+  } else if (recordType === 'xyz.statusphere.status') {
+    return RECORD_THEMES.statusphere;
   } else {
     return RECORD_THEMES.unknown;
   }

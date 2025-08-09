@@ -7,6 +7,7 @@ import PostPreview from './previews/PostPreview';
 import ListCreatePreview from './previews/ListCreatePreview';
 import ListUpdatePreview from './previews/ListUpdatePreview';
 import ListItemCreatePreview from './previews/ListItemCreatePreview';
+import StatusSpherePreview from './previews/StatusSpherePreview';
 import { JETSTREAM_COLORS, getJetstreamEventColor } from '@/lib/utils/browser/theme';
 
 interface JetstreamEventItemProps {
@@ -206,7 +207,15 @@ export default React.memo(function JetstreamEventItem({ event, context }: Jetstr
                   />
                 )}
                 
-                {!['app.bsky.feed.post', 'app.bsky.actor.profile', 'app.bsky.graph.follow', 'app.bsky.feed.like', 'app.bsky.feed.repost', 'app.bsky.graph.list', 'app.bsky.graph.listitem'].includes(event.commit.record.$type) && (
+                {event.commit.record.$type === 'xyz.statusphere.status' && (
+                  <StatusSpherePreview 
+                    statusRecord={event.commit.record} 
+                    authorDid={event.did}
+                    recordKey={event.commit.rkey || ''}
+                  />
+                )}
+                
+                {!['app.bsky.feed.post', 'app.bsky.actor.profile', 'app.bsky.graph.follow', 'app.bsky.feed.like', 'app.bsky.feed.repost', 'app.bsky.graph.list', 'app.bsky.graph.listitem', 'xyz.statusphere.status'].includes(event.commit.record.$type) && (
                   <div>
                     <span className="text-gray-600 dark:text-gray-400 text-xs">Type: </span>
                     <span className="font-mono text-xs">{event.commit.record.$type}</span>
