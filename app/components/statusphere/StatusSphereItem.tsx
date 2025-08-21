@@ -26,7 +26,7 @@ export default function StatusSphereItem({ statusRecord }: StatusSphereItemProps
     return (
       <div className="p-6">
         <div className="flex items-center justify-center mb-4">
-          <div className="text-7xl bg-gradient-to-br from-blue-50 to-purple-50 dark:from-blue-900 dark:to-purple-900 rounded-2xl p-6 shadow-inner">
+          <div className={`text-7xl ${theme.bgColor} rounded-2xl p-6 shadow-inner`}>
             {statusRecord.value.status}
           </div>
         </div>

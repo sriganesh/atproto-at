@@ -17,6 +17,84 @@ interface StatusSphereCollectionViewProps {
   ownerHandle?: string;
 }
 
+// Extract TimelineItem component to avoid recreation on every render
+const TimelineItem = ({ status, index, getRelativeDay }: { 
+  status: StatusRecord; 
+  index: number;
+  getRelativeDay: (dateStr: string) => string;
+}) => {
+  const [isVisible, setIsVisible] = useState(false);
+  
+  useEffect(() => {
+    const timer = setTimeout(() => setIsVisible(true), index * 100);
+    return () => clearTimeout(timer);
+  }, [index]);
+  
+  const time = new Date(status.value.createdAt).toLocaleTimeString([], { 
+    hour: '2-digit', 
+    minute: '2-digit' 
+  });
+  
+  return (
+    <div className={`relative flex items-start pb-6 transition-all duration-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
+      {/* Time on the left */}
+      <div className="text-sm text-gray-500 dark:text-gray-400 text-right w-20 flex-shrink-0 pt-2">{time}</div>
+      
+      {/* Spacer to position node on line at 104px */}
+      <div className="w-6 flex-shrink-0"></div>
+      
+      {/* Status on the right with node */}
+      <div className="relative ml-6">
+        {/* Node positioned on the line */}
+        <div className="absolute -left-[28px] top-3 z-10 w-2 h-2 bg-gray-400 dark:bg-gray-600 rounded-full"></div>
+        
+        <Link
+          href={`/viewer?uri=${status.uri.replace('at://', '')}`}
+          className="inline-block"
+        >
+          <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
+            <span className="text-3xl block">{status.value.status}</span>
+          </div>
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+// Extract DaySection component to avoid recreation on every render
+const DaySection = ({ day, statuses, getRelativeDay }: { 
+  day: string; 
+  statuses: StatusRecord[];
+  getRelativeDay: (dateStr: string) => string;
+}) => {
+  return (
+    <div className="mb-8">
+      {/* Day header */}
+      <div className="mb-4">
+        <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
+          {getRelativeDay(day)}
+        </h3>
+      </div>
+      
+      {/* Timeline items with continuous line */}
+      <div className="relative">
+        {/* Continuous vertical line */}
+        <div className="absolute left-[104px] top-0 bottom-0 w-px bg-gray-200 dark:bg-gray-700"></div>
+        
+        {/* Timeline items */}
+        {statuses.map((status, index) => (
+          <TimelineItem 
+            key={status.uri} 
+            status={status} 
+            index={index}
+            getRelativeDay={getRelativeDay}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
 export default function StatusSphereCollectionView({ records, ownerDid, ownerHandle }: StatusSphereCollectionViewProps) {
   // Group statuses by day
   const groupStatusesByDay = (statuses: StatusRecord[]) => {
@@ -75,76 +153,6 @@ export default function StatusSphereCollectionView({ records, ownerDid, ownerHan
   };
   
 
-  const TimelineItem = ({ status, index }: { 
-    status: StatusRecord; 
-    index: number;
-  }) => {
-    const [isVisible, setIsVisible] = useState(false);
-    
-    useEffect(() => {
-      const timer = setTimeout(() => setIsVisible(true), index * 100);
-      return () => clearTimeout(timer);
-    }, [index]);
-    
-    const time = new Date(status.value.createdAt).toLocaleTimeString([], { 
-      hour: '2-digit', 
-      minute: '2-digit' 
-    });
-    
-    return (
-      <div className={`relative flex items-start pb-6 transition-all duration-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}>
-        {/* Time on the left */}
-        <div className="text-sm text-gray-500 dark:text-gray-400 text-right w-20 flex-shrink-0 pt-2">{time}</div>
-        
-        {/* Spacer to position node on line at 104px */}
-        <div className="w-6 flex-shrink-0"></div>
-        
-        {/* Status on the right with node */}
-        <div className="relative ml-6">
-          {/* Node positioned on the line */}
-          <div className="absolute -left-[28px] top-3 z-10 w-2 h-2 bg-gray-400 dark:bg-gray-600 rounded-full"></div>
-          
-          <Link
-            href={`/viewer?uri=${status.uri.replace('at://', '')}`}
-            className="inline-block"
-          >
-            <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors cursor-pointer">
-              <span className="text-3xl block">{status.value.status}</span>
-            </div>
-          </Link>
-        </div>
-      </div>
-    );
-  };
-
-  const DaySection = ({ day, statuses }: { day: string; statuses: StatusRecord[] }) => {
-    return (
-      <div className="mb-8">
-        {/* Day header */}
-        <div className="mb-4">
-          <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400">
-            {getRelativeDay(day)}
-          </h3>
-        </div>
-        
-        {/* Timeline items with continuous line */}
-        <div className="relative">
-          {/* Continuous vertical line */}
-          <div className="absolute left-[104px] top-0 bottom-0 w-px bg-gray-200 dark:bg-gray-700"></div>
-          
-          {/* Timeline items */}
-          {statuses.map((status, index) => (
-            <TimelineItem 
-              key={status.uri} 
-              status={status} 
-              index={index}
-            />
-          ))}
-        </div>
-      </div>
-    );
-  };
-
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -186,7 +194,7 @@ export default function StatusSphereCollectionView({ records, ownerDid, ownerHan
           {/* Timeline container with padding for the line */}
           <div className="relative">
             {Object.entries(dayGroups).map(([day, statuses]) => (
-              <DaySection key={day} day={day} statuses={statuses} />
+              <DaySection key={day} day={day} statuses={statuses} getRelativeDay={getRelativeDay} />
             ))}
           </div>
           

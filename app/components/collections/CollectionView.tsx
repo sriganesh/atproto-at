@@ -63,7 +63,7 @@ type CollectionViewProps = {
 
 type CollectionViewInnerProps = CollectionViewProps & {
   allRecords?: RecordItem[];
-  setAllRecords?: (records: RecordItem[]) => void;
+  setAllRecords?: React.Dispatch<React.SetStateAction<RecordItem[]>>;
 };
 
 function CollectionViewInner({ 
@@ -181,7 +181,7 @@ function CollectionViewInner({
           
           if (result.data?.records) {
             // Append the new records to the existing ones
-            setAllRecords([...allRecords, ...result.data.records]);
+            setAllRecords(prev => [...prev, ...result.data.records]);
             
             // Update cursor for next pagination
             setCursor(result.data.cursor || null);

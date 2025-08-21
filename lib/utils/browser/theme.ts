@@ -80,7 +80,7 @@ export const RECORD_THEMES: Record<RecordType, ThemeColors> = {
   statusphere: {
     icon: '🎭',
     textColor: 'text-slate-600 dark:text-slate-400',
-    bgColor: 'bg-gradient-to-r from-slate-50 to-blue-gray-50 dark:from-slate-900/20 dark:to-blue-gray-900/20',
+    bgColor: 'bg-gradient-to-r from-slate-50 to-gray-50 dark:from-slate-900/20 dark:to-gray-900/20',
     borderColor: 'border-slate-300 dark:border-slate-700'
   },
   unknown: {
