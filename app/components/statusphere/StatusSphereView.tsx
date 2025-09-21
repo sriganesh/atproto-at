@@ -9,7 +9,14 @@ import { RECORD_THEMES } from '@/lib/utils/browser/theme';
 type StatusSphereViewProps = {
   data: {
     uri: string;
+    cid?: string;
+    value?: {
+      status?: string;
+      createdAt?: string;
+    };
     data?: {
+      uri?: string;
+      cid?: string;
       value?: {
         status?: string;
         createdAt?: string;
@@ -20,25 +27,26 @@ type StatusSphereViewProps = {
   setActiveTab: (tab: 'info' | 'raw' | 'live') => void;
 };
 
-export default function StatusSphereView({ 
-  data, 
-  activeTab, 
+export default function StatusSphereView({
+  data,
+  activeTab,
   setActiveTab
 }: StatusSphereViewProps) {
-  const statusRecord = data?.data;
+  // Extract the actual record data from the wrapper
+  const statusRecord = data?.data || data;
   const createdAt = new Date(statusRecord?.value?.createdAt || new Date());
   const timeAgo = getRelativeTime(createdAt);
-  
+
   const tabs = [
     { id: 'info' as const, label: 'Record Information' },
     { id: 'raw' as const, label: 'Raw Data' },
     { id: 'live' as const, label: 'Jetstream' }
   ];
-  
+
   // Create Jetstream context for live updates
   const jetstreamContext: JetstreamContextType = {
     type: 'collection',
-    did: data?.uri?.split('/')[2] || '',
+    did: (statusRecord?.uri || data?.uri)?.split('/')[2] || '',
     collection: 'xyz.statusphere.status'
   };
   
@@ -51,7 +59,7 @@ export default function StatusSphereView({
           <div className="bg-white dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700 p-6">
             <div className="flex items-center gap-2 mb-4">
               <span className="text-2xl">{RECORD_THEMES.statusphere.icon}</span>
-              <h3 className="text-lg font-semibold">{data?.uri?.split('/').pop()}</h3>
+              <h3 className="text-lg font-semibold">{(statusRecord?.uri || data?.uri)?.split('/').pop()}</h3>
             </div>
             
             <div className="flex items-center justify-center my-8">
@@ -74,8 +82,7 @@ export default function StatusSphereView({
       
       {activeTab === 'raw' && (
         <div className="mt-6">
-          <h3 className="text-lg font-semibold mb-3">Raw Data</h3>
-          <JsonViewer data={data} />
+          <JsonViewer data={statusRecord} />
         </div>
       )}
       
