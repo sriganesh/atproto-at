@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useLoadingOnly } from '../../hooks/useLoadingState';
-import Link from 'next/link';
 import TabsContainer from '../ui/TabsContainer';
 import { JsonViewer } from '../ui/JsonViewer';
 import CollectionHeader from './CollectionHeader';
@@ -11,7 +10,6 @@ import LikedPostItem from './LikedPostItem';
 import RepostedItem from './RepostedItem';
 import BlockedUserItem from './BlockedUserItem';
 import FollowedUserItem from './FollowedUserItem';
-import ListItemUser from './ListItemUser';
 import ListItemUserEnhanced from './ListItemUserEnhanced';
 import ListItemRecord from './ListItemRecord';
 import ThreadgateItem from '../threadgate/ThreadgateItem';
@@ -22,7 +20,7 @@ import LoadMoreButton from './LoadMoreButton';
 import JetstreamTab from '../../viewer/components/jetstream/JetstreamTab';
 import { JetstreamContextType } from '../../viewer/components/jetstream/types';
 import { useViewerCacheContext } from '../viewer/context/ViewerCacheContext';
-import { filterRecords } from './utils/searchUtils';
+import { filterRecords, SearchableRecord } from './utils/searchUtils';
 import { useAuth } from '../auth/AuthProvider';
 import { useAuthMode } from '../auth/AuthModeProvider';
 import { useAuthenticatedRequest } from '../../hooks/useAuthenticatedRequest';
@@ -30,6 +28,8 @@ import CreateListModal from '../lists/CreateListModal';
 import PostComposer from '../composer/PostComposer';
 import CreateRecordModal from '../records/CreateRecordModal';
 import BadgeCollectionView from '../badges/BadgeCollectionView';
+import StatusSphereCollectionView from '../statusphere/StatusSphereCollectionView';
+import StatusSphereItem from '../statusphere/StatusSphereItem';
 
 // Progressive search components
 import SearchableCollectionView from './search/SearchableCollectionView';
@@ -63,7 +63,7 @@ type CollectionViewProps = {
 
 type CollectionViewInnerProps = CollectionViewProps & {
   allRecords?: RecordItem[];
-  setAllRecords?: (records: RecordItem[]) => void;
+  setAllRecords?: React.Dispatch<React.SetStateAction<RecordItem[]>>;
 };
 
 function CollectionViewInner({ 
@@ -74,25 +74,12 @@ function CollectionViewInner({
   setAllRecords: propsSetAllRecords
 }: CollectionViewInnerProps) {
   // Use cache context instead of props
-  const {
-    profileCache,
-    listCache,
-    postCache,
-    handleProfileCached: onProfileCached,
-    handleListCached: onListCached,
-    handlePostCached: onPostCached,
-    getOrCreateProfileRequest,
-    getOrCreateListRequest,
-    getOrCreatePostRequest
-  } = useViewerCacheContext();
+  const cacheContext = useViewerCacheContext();
   
   // Use props records if provided (for searchable collections), otherwise manage locally
-  const initialRecordsRef = React.useRef<RecordItem[]>();
-  if (!initialRecordsRef.current) {
-    initialRecordsRef.current = data.data?.records || [];
-  }
+  const initialRecordsRef = React.useRef<RecordItem[]>(data.data?.records || []);
   
-  const [localAllRecords, setLocalAllRecords] = useState<RecordItem[]>(() => [...initialRecordsRef.current]);
+  const [localAllRecords, setLocalAllRecords] = useState<RecordItem[]>(() => [...(initialRecordsRef.current || [])]);
   const allRecords = propsAllRecords || localAllRecords;
   const setAllRecords = propsSetAllRecords || setLocalAllRecords;
   const { isLoading, execute } = useLoadingOnly();
@@ -134,6 +121,7 @@ function CollectionViewInner({
   const isLabelerCollection = collectionName === 'app.bsky.labeler.service';
   const isPostCollection = collectionName === 'app.bsky.feed.post';
   const isBadgeCollection = collectionName === 'at.atproto.supporter.badge';
+  const isStatusSphereCollection = collectionName === 'xyz.statusphere.status';
   
   // Check if user is viewing their own list collection
   const collectionOwnerDid = data.uri.replace('at://', '').split('/')[0];
@@ -234,7 +222,7 @@ function CollectionViewInner({
   }, [isInSearchContext, searchContext, searchQuery, allRecords, filteredRecords]);
 
   // Render the appropriate record item based on collection type
-  const renderRecordItem = (record: RecordItem, index: number) => {
+  const renderRecordItem = (record: RecordItem | SearchableRecord, index: number) => {
     // Use a stable key based on URI or CID
     const recordKey = record.uri || record.cid || `record-${index}`;
     
@@ -368,6 +356,13 @@ function CollectionViewInner({
           labelerRecord={record as any}
         />
       );
+    } else if (record.value.$type === 'xyz.statusphere.status') {
+      return (
+        <StatusSphereItem
+          key={recordKey}
+          statusRecord={record as any}
+        />
+      );
     } else {
       return (
         <RecordItem 
@@ -479,6 +474,13 @@ function CollectionViewInner({
           {/* Custom Badge Collection View */}
           {isBadgeCollection ? (
             <BadgeCollectionView 
+              records={displayRecords as any}
+              ownerDid={collectionOwnerDid}
+              ownerHandle={data.data?.handle || data.data?.repoInfo?.handle}
+            />
+          ) : isStatusSphereCollection ? (
+            /* Custom StatusSphere Collection View */
+            <StatusSphereCollectionView 
               records={displayRecords as any}
               ownerDid={collectionOwnerDid}
               ownerHandle={data.data?.handle || data.data?.repoInfo?.handle}
@@ -619,12 +621,9 @@ export default function CollectionView(props: CollectionViewProps) {
     collectionName === 'app.bsky.feed.postgate';
 
   // State management for records needs to be at this level for searchable collections
-  const initialRecordsRef = React.useRef<RecordItem[]>();
-  if (!initialRecordsRef.current) {
-    initialRecordsRef.current = data.data?.records || [];
-  }
+  const initialRecordsRef = React.useRef<RecordItem[]>(data.data?.records || []);
   
-  const [allRecords, setAllRecords] = useState<RecordItem[]>(() => [...initialRecordsRef.current]);
+  const [allRecords, setAllRecords] = useState<RecordItem[]>(() => [...(initialRecordsRef.current || [])]);
 
   // For searchable collections, wrap with SearchableCollectionView
   if (isSearchableCollection && data.data?.records?.length > 0) {

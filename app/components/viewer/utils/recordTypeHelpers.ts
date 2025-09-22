@@ -71,6 +71,12 @@ export const recordTypeHelpers = {
     data?.data?.value && 
     (data.data.value.$type === 'app.bsky.labeler.service' || 
      data.uri?.includes('app.bsky.labeler.service')),
+
+  hasStatusSphere: (data: any) => 
+    data?.type === 'record' && 
+    data?.data?.value && 
+    (data.data.value.$type === 'xyz.statusphere.status' || 
+     data.uri?.includes('xyz.statusphere.status')),
 };
 
 // Extract DID for document link
