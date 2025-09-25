@@ -12,6 +12,7 @@ import SessionStatus from './components/auth/SessionStatus';
 import HandleAutocomplete from './components/ui/HandleAutocomplete';
 import { useAuth } from './components/auth/AuthProvider';
 import FooterBadgeLink from './components/badges/FooterBadgeLink';
+import AnimatedTaprootLogo from './components/ui/AnimatedTaprootLogo';
 
 // Sample AT URIs for the animation with empty gaps
 const SAMPLE_URIS = [
@@ -157,10 +158,8 @@ export default function Home() {
       <div className="max-w-lg w-full mx-auto">
         {/* Title */}
         <div className="text-center mb-6">
-          <h1 className="text-4xl font-bold mb-2">
-            <span>atproto.</span><span className="text-blue-500">at://</span>
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400">AT Protocol Explorer</p>
+          <AnimatedTaprootLogo />
+          <p className="text-gray-600 dark:text-gray-400">Taproot - AT Protocol Explorer</p>
           
           {/* Add URI Animation */}
           <UriRolodex />
@@ -246,6 +245,8 @@ export default function Home() {
             <a href="/terms" className="text-gray-500 hover:text-blue-500 hover:underline">Terms</a>
             <span className="text-gray-400">•</span>
             <a href="https://github.com/sriganesh/atproto-at" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-blue-500 hover:underline">Source Code</a>
+            <span className="text-gray-400">•</span>
+            <a href="https://sri.xyz/projects/atprotoat" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-blue-500 hover:underline">Features</a>
           </div>
           <div className="flex items-center justify-center gap-4 flex-wrap">
             <a href="https://bsky.app/profile/atproto.at" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">@atproto.at</a>

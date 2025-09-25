@@ -36,7 +36,7 @@ export default function ViewerPage() {
       {/* Footer */}
       <div className="mt-8 text-center text-sm text-gray-600 dark:text-gray-400 space-y-2">
         <p className="mb-2">
-          <span className="font-semibold">atproto.at</span> - All-in-one AT Protocol Explorer
+          <span className="font-semibold">Taproot (atproto.at://)</span> - All-in-one AT Protocol Explorer
         </p>
         <TidClock />
         <div className="flex items-center justify-center gap-4 flex-wrap">
@@ -44,8 +44,9 @@ export default function ViewerPage() {
           <span className="text-gray-400">•</span>
           <a href="/terms" className="text-gray-500 hover:text-blue-500 hover:underline">Terms</a>
           <span className="text-gray-400">•</span>
-
           <a href="https://github.com/sriganesh/atproto-at" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-blue-500 hover:underline">Source Code</a>
+          <span className="text-gray-400">•</span>
+          <a href="https://sri.xyz/projects/atprotoat" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-blue-500 hover:underline">Features</a>
         </div>
         <div className="flex items-center justify-center gap-4 flex-wrap">
           <a href="https://bsky.app/profile/atproto.at" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">@atproto.at</a>

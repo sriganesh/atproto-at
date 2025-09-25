@@ -58,7 +58,7 @@ export default function SupporterBadgeView({ recordData, recordUri }: SupporterB
         <div className="space-y-3">
           <div>
             <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Service:</span>
-            <p className="text-gray-900 dark:text-gray-100">{badge.service || 'atproto.at'}</p>
+            <p className="text-gray-900 dark:text-gray-100">{badge.service || 'Taproot (atproto.at://)'}</p>
           </div>
 
           <div>
@@ -87,7 +87,7 @@ export default function SupporterBadgeView({ recordData, recordUri }: SupporterB
       {/* Recognition */}
       <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
         <p className="text-sm text-blue-800 dark:text-blue-200 text-center">
-          ✨ {badgeConfig?.whatItRepresents || `This user has the ${badgeType} badge for atproto.at!`} ✨
+          ✨ {badgeConfig?.whatItRepresents || `This user has the ${badgeType} badge for Taproot (atproto.at://)!`} ✨
         </p>
       </div>
     </div>

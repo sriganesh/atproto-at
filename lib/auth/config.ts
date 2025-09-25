@@ -1,7 +1,7 @@
 // OAuth configuration for production
 const clientMetadata = {
   client_id: 'https://atproto.at/oauth-client-metadata.json',
-  client_name: 'atproto.at - AT Protocol Explorer',
+  client_name: 'Taproot (atproto.at://) - AT Protocol Explorer',
   client_uri: 'https://atproto.at',
   logo_uri: 'https://atproto.at/logo.png',
   tos_uri: 'https://atproto.at/terms',

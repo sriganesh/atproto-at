@@ -70,7 +70,7 @@ export default function BadgesPage() {
             <span className="text-2xl">🏅</span> Supporter Badges
           </h1>
           <p className="text-gray-600 dark:text-gray-400">
-            Collect badges to show your support for atproto.at
+            Collect badges to show your support for Taproot (atproto.at://)
           </p>
         </div>
 

@@ -109,7 +109,7 @@ export default function LoginPage() {
             <p className="text-gray-400 text-sm mb-3">What happens next:</p>
             <ul className="space-y-2 text-sm text-gray-300">
               <li>• You'll be redirected to your PDS to sign in</li>
-              <li>• Your PDS will ask you to authorize atproto.at</li>
+              <li>• Your PDS will ask you to authorize Taproot (atproto.at://)</li>
               <li>• After approval, you'll be redirected back here</li>
             </ul>
             <p className="text-xs text-gray-500 text-center mt-6">

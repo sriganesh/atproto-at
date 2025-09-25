@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy - atproto.at',
-  description: 'Privacy policy for atproto.at - AT Protocol Explorer',
+  title: 'Privacy Policy - Taproot (atproto.at://)',
+  description: 'Privacy policy for Taproot (atproto.at://) - AT Protocol Explorer',
 };
 
 export default function PrivacyPolicy() {
@@ -11,13 +11,13 @@ export default function PrivacyPolicy() {
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 md:p-8">
         <h1 className="text-3xl font-bold mb-6 text-gray-900 dark:text-gray-100">Privacy Policy</h1>
         
-        <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">Last updated: June 30, 2025</p>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">Last updated: September 24, 2025</p>
         
         <div className="prose prose-gray dark:prose-invert max-w-none space-y-6">
           <section>
             <h2 className="text-2xl font-semibold mb-3">Overview</h2>
             <p className="text-gray-700 dark:text-gray-300">
-              atproto.at ("we", "our", or "the Service") is committed to protecting your privacy. 
+              Taproot (atproto.at://) ("we", "our", or "the Service") is committed to protecting your privacy. 
               This Privacy Policy explains how we handle information when you use our AT Protocol explorer service.
             </p>
           </section>

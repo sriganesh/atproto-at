@@ -121,7 +121,7 @@ export async function processCarToJson(carBlob: Blob): Promise<CarProcessingResu
       did: extractedDid,
       repoCommit,
       processedBy: {
-        tool: "AT Protocol Explorer and Exporter",
+        tool: "Taproot - AT Protocol Explorer and Exporter",
         version: "1.0.0",
         website: "https://atproto.at",
         processedAt: new Date().toISOString()
