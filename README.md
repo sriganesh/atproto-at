@@ -1,4 +1,4 @@
-# atproto.at - AT Protocol Explorer
+# Taproot (atproto.at://) - AT Protocol Explorer
 
 ![atproto.at](public/atprotoat_ogimage.png)
 
