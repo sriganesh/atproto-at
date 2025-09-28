@@ -15,11 +15,11 @@ export const BADGE_TYPES: Record<string, BadgeTypeConfig> = {
   earlyadopter: {
     rkey: 'earlyadopter',
     title: 'Early Adopter Badge',
-    description: 'Show your support for atproto.at by creating a badge in your repository!',
+    description: 'Show your support for Taproot (atproto.at://) by creating a badge in your repository!',
     emoji: '🏆',
-    defaultMessage: 'I love using atproto.at to explore the AT Protocol! 🚀',
+    defaultMessage: 'I love using Taproot (atproto.at://) to explore the AT Protocol! 🚀',
     gradient: 'from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600',
-    whatItRepresents: "You're an early supporter of atproto.at"
+    whatItRepresents: "You're an early supporter of Taproot (atproto.at://)"
   },
   // Example: Add new badges here as needed
   explorer: {
@@ -27,7 +27,7 @@ export const BADGE_TYPES: Record<string, BadgeTypeConfig> = {
     title: 'AT Protocol Explorer',
     description: 'You love diving deep into AT Protocol data!',
     emoji: '🔍',
-    defaultMessage: 'Exploring the depths of AT Protocol with atproto.at!',
+    defaultMessage: 'Exploring the depths of AT Protocol with Taproot (atproto.at://)!',
     gradient: 'from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600',
     whatItRepresents: "You're an avid AT Protocol explorer"
   }
@@ -55,7 +55,7 @@ export async function issueBadge(
   const record = {
     $type: 'at.atproto.supporter.badge',
     createdAt: new Date().toISOString(),
-    service: 'atproto.at',
+    service: 'Taproot (atproto.at://)',
     message: customMessage || badgeConfig.defaultMessage,
     version: '1.0.0',
     badgeType: badgeType // Include badge type in the record

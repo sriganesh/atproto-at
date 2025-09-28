@@ -55,8 +55,8 @@ export default function SupporterBadgeModal({
         const record = {
           $type: 'at.atproto.supporter.badge',
           createdAt: new Date().toISOString(),
-          service: 'atproto.at',
-          message: message.trim() || 'Supporting atproto.at!',
+          service: 'Taproot (atproto.at://)',
+          message: message.trim() || 'Supporting Taproot (atproto.at://)!',
           version: '1.0.0',
           badgeType: badgeType // Include badge type in the record
         };

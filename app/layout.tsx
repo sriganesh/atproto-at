@@ -8,19 +8,19 @@ import { ClientAuthProvider } from './components/auth/ClientAuthProvider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'atproto.at:// - AT Protocol Explorer',
+  title: 'Taproot (atproto.at://) - AT Protocol Explorer',
   description: 'Preview AT Protocol links by prefixing atproto. to any AT Protocol URI',
   openGraph: {
-    title: 'atproto.at:// - AT Protocol Explorer',
+    title: 'Taproot (atproto.at://) - AT Protocol Explorer',
     description: 'Preview AT Protocol links by prefixing atproto. to any AT Protocol URI',
     url: 'https://atproto.at',
-    siteName: 'atproto.at',
+    siteName: 'Taproot (atproto.at://)',
     images: [
       {
         url: 'https://atproto.at/atprotoat_ogimage.png',
         width: 1200,
         height: 630,
-        alt: 'atproto.at:// - AT Protocol Explorer',
+        alt: 'Taproot (atproto.at://) - AT Protocol Explorer',
       },
     ],
     locale: 'en_US',
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'atproto.at:// - AT Protocol Explorer',
+    title: 'Taproot (atproto.at://) - AT Protocol Explorer',
     description: 'Preview AT Protocol links by prefixing atproto. to any AT Protocol URI',
     images: ['https://atproto.at/atprotoat_ogimage.png'],
   },

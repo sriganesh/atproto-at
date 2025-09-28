@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Terms of Service - atproto.at',
-  description: 'Terms of Service for atproto.at - AT Protocol Explorer',
+  title: 'Terms of Service - Taproot (atproto.at://)',
+  description: 'Terms of Service for Taproot (atproto.at://) - AT Protocol Explorer',
 };
 
 export default function TermsOfService() {
@@ -11,13 +11,13 @@ export default function TermsOfService() {
       <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 md:p-8">
         <h1 className="text-3xl font-bold mb-6 text-gray-900 dark:text-gray-100">Terms of Service</h1>
         
-        <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">Last updated: June 30, 2025</p>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">Last updated: September 24, 2025</p>
         
         <div className="prose prose-gray dark:prose-invert max-w-none space-y-6">
           <section>
             <h2 className="text-2xl font-semibold mb-3">1. Acceptance of Terms</h2>
             <p className="text-gray-700 dark:text-gray-300">
-              By accessing or using atproto.at ("the Service"), you agree to be bound by these Terms of Service. 
+              By accessing or using Taproot (atproto.at://) ("the Service"), you agree to be bound by these Terms of Service. 
               If you do not agree to these terms, please do not use the Service.
             </p>
           </section>
@@ -25,7 +25,7 @@ export default function TermsOfService() {
           <section>
             <h2 className="text-2xl font-semibold mb-3">2. Description of Service</h2>
             <p className="text-gray-700 dark:text-gray-300">
-              atproto.at is a web-based viewer and explorer for the AT Protocol network. The Service allows users to:
+              Taproot (atproto.at://) is a web-based viewer and explorer for the AT Protocol network. The Service allows users to:
             </p>
             <ul className="list-disc pl-6 space-y-2 text-gray-700 dark:text-gray-300 mt-3">
               <li>View AT Protocol content through a web interface</li>
@@ -109,7 +109,7 @@ export default function TermsOfService() {
           <section>
             <h2 className="text-2xl font-semibold mb-3">9. Indemnification</h2>
             <p className="text-gray-700 dark:text-gray-300">
-              You agree to indemnify and hold harmless atproto.at and its operators from any claims, 
+              You agree to indemnify and hold harmless Taproot (atproto.at://) and its operators from any claims, 
               damages, losses, liabilities, costs, and expenses arising from your use of the Service 
               or violation of these Terms.
             </p>
