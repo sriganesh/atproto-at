@@ -14,46 +14,17 @@ export async function downloadRepo(pdsUrl: string, did: string): Promise<void> {
     // Check if the DID is did:web
     const isWebDid = did.startsWith('did:web:');
     
-    // Different repos might have different XRPC endpoints 
-    // AT Proto standard endpoint is com.atproto.sync.getRepo
-    // Some custom implementations might have variations
-    
-    // List of possible repo sync endpoints to try
-    const syncEndpoints = [
-      'xrpc/com.atproto.sync.getRepo',        // Standard endpoint
-      'xrpc/com.atproto.repo.exportRepo',     // Alternative some servers might use
-    ];
-    
-    let response = null;
-    
-    // Try each endpoint until we find one that works
-    for (const endpoint of syncEndpoints) {
-      const downloadUrl = `${normalizedPdsUrl}/${endpoint}?did=${encodeURIComponent(did)}`;
-            
-      try {
-        // Try the current endpoint
-        const currentResponse = await fetch(downloadUrl, {
-          method: 'GET',
-          headers: {
-            'Accept': 'application/vnd.ipld.car',
-          },
-        });
-        
-        if (currentResponse.ok) {
-                    response = currentResponse;
-          break; // Found a working endpoint
-        }
-        
-              } catch (endpointError) {
-        console.error(`Error with endpoint ${endpoint}:`, endpointError);
-        // Continue to try the next endpoint
-      }
-    }
-    
-    // If none of the endpoints worked
-    if (!response) {
-      throw new Error(`Failed to download repository: No working endpoint found for ${pdsUrl}`);
-    }
+    // AT Proto standard endpoint for repository export
+    const endpoint = 'xrpc/com.atproto.sync.getRepo';
+    const downloadUrl = `${normalizedPdsUrl}/${endpoint}?did=${encodeURIComponent(did)}`;
+
+    // Fetch the repository CAR file
+    const response = await fetch(downloadUrl, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/vnd.ipld.car',
+      },
+    });
     
     // If we have a valid response, continue with the download
     if (!response.ok) {
