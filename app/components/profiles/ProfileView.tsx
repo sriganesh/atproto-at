@@ -55,7 +55,8 @@ export default function ProfileView({
   const [blockUri, setBlockUri] = useState<string | null>(null);
   const [isBlockLoading, setIsBlockLoading] = useState(false);
   const [isBlockedBy, setIsBlockedBy] = useState(false);
-  
+  const [isSuspendedOnBluesky, setIsSuspendedOnBluesky] = useState(false);
+
   // Calculate anniversary/new account status
   const getAccountAgeEmoji = () => {
     if (!plcLog || plcLog.length === 0) return null;
@@ -272,7 +273,37 @@ export default function ProfileView({
       checkViewerStatus();
     }
   }, [session, profileDid, executeRequest, isReadOnly]);
-  
+
+  // Check if account is suspended on Bluesky
+  useEffect(() => {
+    const checkSuspensionStatus = async () => {
+      if (!profileDid) return;
+
+      try {
+        // Check suspension status via public Bluesky API
+        const response = await fetch(
+          `https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile?actor=${encodeURIComponent(profileDid)}`
+        );
+
+        if (!response.ok) {
+          // Check if it's an AccountTakedown error
+          const errorData = await response.json();
+          if (errorData.error === 'AccountTakedown') {
+            setIsSuspendedOnBluesky(true);
+          }
+        } else {
+          // Account is active
+          setIsSuspendedOnBluesky(false);
+        }
+      } catch (error) {
+        console.error('Error checking suspension status:', error);
+        // Don't set suspension status on network errors
+      }
+    };
+
+    checkSuspensionStatus();
+  }, [profileDid]);
+
   // Handle follow/unfollow
   const handleFollow = async () => {
     if (!session || !profileDid || session.did === profileDid || isReadOnly || isFollowLoading) return;
@@ -425,9 +456,11 @@ export default function ProfileView({
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-500 hover:text-blue-700 transition-colors inline-flex items-center gap-1 text-sm"
-                      title={`View ${data.data?.handle || data.data?.repoInfo?.handle} on Bluesky`}
+                      title={isSuspendedOnBluesky
+                        ? `⚠️ Account may be suspended on Bluesky`
+                        : `View ${data.data?.handle || data.data?.repoInfo?.handle} on Bluesky`}
                     >
-                      🦋
+                      <span className={isSuspendedOnBluesky ? 'line-through decoration-2 text-red-500' : ''}>🦋</span>
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                       </svg>
@@ -690,4 +723,4 @@ export default function ProfileView({
       
     </>
   );
-}
+} 
