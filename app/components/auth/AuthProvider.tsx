@@ -3,6 +3,8 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { Agent } from '@atproto/api';
 import { getSession, getAllSessions, logout as oauthLogout, startOAuthFlow, initOAuthClient, getOAuthClient } from '@/lib/auth/oauth-client';
+import { ensureProfileRecord } from '@/app/utils/profile';
+import { ensureSettingsRecord } from '@/app/utils/settings';
 
 interface AuthSession {
   did: string;
@@ -54,7 +56,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         const agent = new Agent(oauthSession);
         
         // Get session info including email if available
-        const sessionInfo = await agent.getSession();
+        const sessionInfo = await agent.com.atproto.server.getSession();
         
         // Try to fetch the user's profile to get avatar and display name
         let avatar: string | undefined;
@@ -74,6 +76,10 @@ export function AuthProvider({ children }: AuthProviderProps) {
           agent,
         };
         setSession(newSession);
+
+        // Ensure user records exist (non-throwing)
+        await ensureProfileRecord(agent, sessionInfo.data.did);
+        await ensureSettingsRecord(agent, sessionInfo.data.did);
       } else {
         setSession(null);
       }
@@ -88,7 +94,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const loadAllSessions = useCallback(async () => {
     try {
-      const allSessions = await getAllSessions();
+      const allSessions = await getAllSessions() as Array<{ did: string; handle?: string }>;
       // Ensure allSessions is an array before mapping
       if (Array.isArray(allSessions)) {
         setSessions(allSessions.map(s => ({ did: s.did, handle: s.handle || s.did })));
@@ -152,8 +158,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
                 agent,
               };
               setSession(newSession);
+
+              // Ensure user records exist (non-throwing)
+              await ensureProfileRecord(agent, sessionInfo.data.did);
+              await ensureSettingsRecord(agent, sessionInfo.data.did);
+
               setIsLoading(false);
-              
+
               // Also load all sessions
               loadAllSessions();
               
