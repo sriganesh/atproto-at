@@ -4,6 +4,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import { Agent } from '@atproto/api';
 import { getSession, getAllSessions, logout as oauthLogout, startOAuthFlow, initOAuthClient, getOAuthClient } from '@/lib/auth/oauth-client';
 import { ensureProfileRecord } from '@/app/utils/profile';
+import { ensureSettingsRecord } from '@/app/utils/settings';
 
 interface AuthSession {
   did: string;
@@ -76,8 +77,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
         };
         setSession(newSession);
 
-        // Ensure at.atproto.profile record exists (non-throwing)
+        // Ensure user records exist (non-throwing)
         await ensureProfileRecord(agent, sessionInfo.data.did);
+        await ensureSettingsRecord(agent, sessionInfo.data.did);
       } else {
         setSession(null);
       }
@@ -157,8 +159,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
               };
               setSession(newSession);
 
-              // Ensure at.atproto.profile record exists (non-throwing)
+              // Ensure user records exist (non-throwing)
               await ensureProfileRecord(agent, sessionInfo.data.did);
+              await ensureSettingsRecord(agent, sessionInfo.data.did);
 
               setIsLoading(false);
 

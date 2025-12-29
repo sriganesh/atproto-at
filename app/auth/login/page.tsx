@@ -114,6 +114,7 @@ export default function LoginPage() {
             </ul>
             <p className="text-xs text-gray-500 text-center mt-6">
               We use OAuth for secure authentication. Your password is never shared with us.
+              Your app preferences will be stored in your repository under at.atproto.profile and at.atproto.settings.
             </p>
           </div>
         </div>
