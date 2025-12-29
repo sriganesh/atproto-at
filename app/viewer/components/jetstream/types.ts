@@ -44,24 +44,61 @@ export interface JetstreamContextType {
 }
 
 export const OFFICIAL_JETSTREAM_INSTANCES: JetstreamInstance[] = [
+  // Firehose.stream instances
+  {
+    hostname: 'nyc.firehose.stream',
+    region: 'NYC',
+    url: 'wss://nyc.firehose.stream/tap'
+  },
+  {
+    hostname: 'sfo.firehose.stream',
+    region: 'SFO',
+    url: 'wss://sfo.firehose.stream/tap'
+  },
+  {
+    hostname: 'london.firehose.stream',
+    region: 'London',
+    url: 'wss://london.firehose.stream/tap'
+  },
+  {
+    hostname: 'frankfurt.firehose.stream',
+    region: 'Frankfurt',
+    url: 'wss://frankfurt.firehose.stream/tap'
+  },
+  {
+    hostname: 'jet.firehose.stream',
+    region: 'Global',
+    url: 'wss://jet.firehose.stream/tap'
+  },
+  {
+    hostname: 'chennai.firehose.stream',
+    region: 'Chennai',
+    url: 'wss://chennai.firehose.stream/tap'
+  },
+  {
+    hostname: 'sydney.firehose.stream',
+    region: 'Sydney',
+    url: 'wss://sydney.firehose.stream/tap'
+  },
+  // Bluesky instances
   {
     hostname: 'jetstream1.us-east.bsky.network',
-    region: 'US-East',
+    region: 'US-East (Bluesky)',
     url: 'wss://jetstream1.us-east.bsky.network/subscribe'
   },
   {
-    hostname: 'jetstream2.us-east.bsky.network', 
-    region: 'US-East',
+    hostname: 'jetstream2.us-east.bsky.network',
+    region: 'US-East (Bluesky)',
     url: 'wss://jetstream2.us-east.bsky.network/subscribe'
   },
   {
     hostname: 'jetstream1.us-west.bsky.network',
-    region: 'US-West', 
+    region: 'US-West (Bluesky)',
     url: 'wss://jetstream1.us-west.bsky.network/subscribe'
   },
   {
     hostname: 'jetstream2.us-west.bsky.network',
-    region: 'US-West',
+    region: 'US-West (Bluesky)',
     url: 'wss://jetstream2.us-west.bsky.network/subscribe'
   }
 ]; 

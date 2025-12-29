@@ -28,17 +28,16 @@ export default function JetstreamInstanceSelector({
 
   const handleCustomSubmit = () => {
     if (!customUrl.trim()) return;
-    
-    let url = customUrl.trim();
+
+    const input = customUrl.trim();
+    let url = input;
+
     if (!url.startsWith('ws://') && !url.startsWith('wss://')) {
       url = `wss://${url}`;
     }
-    if (!url.includes('/subscribe')) {
-      url = `${url}/subscribe`;
-    }
 
     const customInstance: JetstreamInstance = {
-      hostname: customUrl.trim(),
+      hostname: input,
       region: 'Custom',
       url: url
     };
@@ -86,7 +85,7 @@ export default function JetstreamInstanceSelector({
               type="text"
               value={customUrl}
               onChange={(e) => setCustomUrl(e.target.value)}
-              placeholder="jetstream.example.com or wss://jetstream.example.com/subscribe"
+              placeholder="jet.example.com/subscribe or jet.example.com/tap"
               disabled={disabled}
               className="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md 
                        bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100
@@ -109,7 +108,7 @@ export default function JetstreamInstanceSelector({
             </button>
           </div>
           <p className="text-xs text-gray-500 dark:text-gray-400">
-            Enter hostname or full WebSocket URL. Protocol and /subscribe path will be added automatically if needed.
+            Enter host and path. Protocol (wss://) will be added if not provided.
           </p>
         </div>
       )}
