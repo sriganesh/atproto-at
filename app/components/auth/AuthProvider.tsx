@@ -76,12 +76,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
         };
         setSession(newSession);
 
-        // Ensure at.atproto.profile record exists
-        try {
-          await ensureProfileRecord(agent, sessionInfo.data.did);
-        } catch (err) {
-          console.error('Failed to ensure profile record:', err);
-        }
+        // Ensure at.atproto.profile record exists (non-throwing)
+        await ensureProfileRecord(agent, sessionInfo.data.did);
       } else {
         setSession(null);
       }
@@ -161,12 +157,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
               };
               setSession(newSession);
 
-              // Ensure at.atproto.profile record exists
-              try {
-                await ensureProfileRecord(agent, sessionInfo.data.did);
-              } catch (err) {
-                console.error('Failed to ensure profile record:', err);
-              }
+              // Ensure at.atproto.profile record exists (non-throwing)
+              await ensureProfileRecord(agent, sessionInfo.data.did);
 
               setIsLoading(false);
 
