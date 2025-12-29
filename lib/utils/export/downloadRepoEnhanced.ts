@@ -136,37 +136,27 @@ function groupRecordsByCollection(records: any[]): Record<string, any[]> {
 async function fetchCarFile(pdsUrl: string, did: string): Promise<Blob> {
   // Normalize PDS URL
   const normalizedPdsUrl = pdsUrl.endsWith('/') ? pdsUrl.slice(0, -1) : pdsUrl;
-  
-  // Try standard AT Protocol sync endpoints
-  const syncEndpoints = [
-    'xrpc/com.atproto.sync.getRepo',
-    'xrpc/com.atproto.repo.exportRepo',
-  ];
 
-  let lastError: Error | null = null;
+  // AT Protocol standard endpoint for repository export
+  const endpoint = 'xrpc/com.atproto.sync.getRepo';
+  const downloadUrl = `${normalizedPdsUrl}/${endpoint}?did=${encodeURIComponent(did)}`;
 
-  for (const endpoint of syncEndpoints) {
-    try {
-      const downloadUrl = `${normalizedPdsUrl}/${endpoint}?did=${encodeURIComponent(did)}`;
-            
-      const response = await fetch(downloadUrl, {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/vnd.ipld.car',
-        },
-      });
-      
-      if (response.ok) {
-        return await response.blob();
-      }
-      
-      lastError = new Error(`Endpoint ${endpoint} returned ${response.status}: ${response.statusText}`);
-    } catch (error) {
-      lastError = error instanceof Error ? error : new Error(`Failed to fetch from endpoint: ${endpoint}`);
+  try {
+    const response = await fetch(downloadUrl, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/vnd.ipld.car',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch repository: ${response.status} ${response.statusText}`);
     }
-  }
 
-  throw lastError || new Error('Failed to fetch CAR file from any endpoint');
+    return await response.blob();
+  } catch (error) {
+    throw error instanceof Error ? error : new Error('Failed to fetch CAR file');
+  }
 }
 
 /**
