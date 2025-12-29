@@ -19,16 +19,20 @@ export async function downloadRepo(pdsUrl: string, did: string): Promise<void> {
     const downloadUrl = `${normalizedPdsUrl}/${endpoint}?did=${encodeURIComponent(did)}`;
 
     // Fetch the repository CAR file
-    const response = await fetch(downloadUrl, {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/vnd.ipld.car',
-      },
-    });
-    
-    // If we have a valid response, continue with the download
-    if (!response.ok) {
-      throw new Error(`Failed to download repository: ${response.statusText}`);
+    let response: Response;
+    try {
+      response = await fetch(downloadUrl, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/vnd.ipld.car',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch repository: ${response.status} ${response.statusText}`);
+      }
+    } catch (error) {
+      throw error instanceof Error ? error : new Error('Failed to fetch repository');
     }
     
     // Get the blob from the response
