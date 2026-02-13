@@ -75,11 +75,6 @@ export const OFFICIAL_JETSTREAM_INSTANCES: JetstreamInstance[] = [
     region: 'Chennai',
     url: 'wss://chennai.firehose.stream/tap'
   },
-  {
-    hostname: 'sydney.firehose.stream',
-    region: 'Sydney',
-    url: 'wss://sydney.firehose.stream/tap'
-  },
   // Bluesky instances
   {
     hostname: 'jetstream1.us-east.bsky.network',
